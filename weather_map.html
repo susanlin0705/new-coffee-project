@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather Map</title>
+</head>
+<body>
+
+    <h1>Weather Map</h1>
+    <div id="weather">
+
+    </div>
+
+
+
+
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCp8riwMMofm7Djpcl1TB8z534HQg3pLeM"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script>
+
+        var darkSkyKey = "8750add9758ed64b1ae670cb631afb76";
+        var userLat = 29.4241;
+        var userLon = -98.4936;
+        function weather(userLat, userLon) {
+            $.get("https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/" + darkSkyKey + "/" + userLat + "," + userLon).done(function (data) {
+                console.log(data)
+
+                //to show the next three day
+                var weather = "";
+                var nextThreeDays = data.daily.data.slice(0,3);
+                var time = new Time(data.currently.time*1000);
+                nextThreeDays.forEach(function (nextThreeDay) {
+                    var date = new Date(nextThreeDay.time*1000);
+                    console.log(date);
+                    // to show on html
+                    weather += "<div class='weatherReport'>";
+                    weather += "<p>DATE: "+ date.toDateString()+ " </p>";
+                    weather += "<p>Current Time: "+time.toString()+"</p>";
+                    weather += "<p>HIGHEST TEMP: "+ nextThreeDay.temperatureHigh+ " </p>";
+                    weather += "<p>LOWEST TEMP: "+ nextThreeDay.temperatureLow + " </p>";
+                    weather += "<p>SUM: "+ nextThreeDay.summary+ " </p>";
+                    weather += "</div>";
+                });
+                $("#weather").html(weather);
+
+
+
+            });
+
+        }
+        weather(userLat,userLon);
+
+
+
+</script>
+</body>
+</html>
