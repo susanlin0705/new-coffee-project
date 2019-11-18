@@ -21,7 +21,48 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script>
-
+        var icons=[
+            {
+                name:"clear-day",
+                url:"img/clouds.png"
+            },
+            {
+                name:"rain",
+                url:"img/rain.png"
+            },
+            {
+                name:"snow",
+                url:"img/snowflake.png"
+            },
+            {
+                name:"sleet",
+                url:"img/sleet.png"
+            },
+            {
+                name:"wind",
+                url:"img/wind.png"
+            },
+            {
+                name:"fog",
+                url:"img/clouds.png"
+            },
+            {
+                name:"cloudy",
+                url:"img/clouds.png"
+            },
+            {
+                name:"partly-cloudy-day",
+                url:"img/cloudy.png"
+            },
+            {
+                name:"clear-night",
+                url:"img/sunny.png"
+            },
+            {
+                name:"partly-cloudy-night",
+                url:"img/cloudy.png"
+            }
+        ]
         var darkSkyKey = "8750add9758ed64b1ae670cb631afb76";
         var userLat = 29.4241;
         var userLon = -98.4936;
@@ -32,16 +73,22 @@
                 //to show the next three day
                 var weather = "";
                 var nextThreeDays = data.daily.data.slice(0,3);
-                var time = new Time(data.currently.time*1000);
+                var time = new Date(data.currently.time*1000);
+                console.log(time);
                 nextThreeDays.forEach(function (nextThreeDay) {
+                    icons.forEach(function (icon) {
+                        if(nextThreeDay.icon=== icon.icon){
+                            nextThreeDay.url = icon.url
+                        }
+                    });
                     var date = new Date(nextThreeDay.time*1000);
                     console.log(date);
                     // to show on html
                     weather += "<div class='weatherReport'>";
-                    weather += "<p>DATE: "+ date.toDateString()+ " </p>";
-                    weather += "<p>Current Time: "+time.toString()+"</p>";
+                    weather += "<p>Current Time: "+date.toDateString()+"</p>";
                     weather += "<p>HIGHEST TEMP: "+ nextThreeDay.temperatureHigh+ " </p>";
                     weather += "<p>LOWEST TEMP: "+ nextThreeDay.temperatureLow + " </p>";
+                    weather += "<img src='icon/" + nextThreeDay.url + "'/>";
                     weather += "<p>SUM: "+ nextThreeDay.summary+ " </p>";
                     weather += "</div>";
                 });
