@@ -1,0 +1,14 @@
+#weather{
+    display: flex;
+    text-align: center;
+    justify-content: space-evenly ;
+    font-size: 20px;
+}
+
+
+#map {
+    margin-top: 750px;
+    margin-left: 300px;
+    height: 500px;
+    width: 500px;
+}

@@ -1,15 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
     <title>Weather Map</title>
+    <link rel="stylesheet" href="weather.css">
 </head>
 <body>
 
     <h1>Weather Map</h1>
-    <div id="weather">
-
+    <div>
+        <div id="currentLocation"></div>
+        <div id="weather">
+        </div>
+        <div id="map"></div>
     </div>
+
 
 
 
@@ -20,6 +31,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js'></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css' type='text/css' />
+    <!-- Promise polyfill script required to use Mapbox GL Geocoder in IE 11 -->
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+
 <script>
         var icons=[
             {
@@ -85,7 +102,7 @@
                     console.log(date);
                     // to show on html
                     weather += "<div class='weatherReport'>";
-                    weather += "<p>Current Date: "+date.toDateString()+"</p>";
+                    weather += "<p>DATE: "+date.toDateString()+"</p>";
                     weather += "<p>HIGHEST TEMP: "+ nextThreeDay.temperatureHigh+ " </p>";
                     weather += "<p>LOWEST TEMP: "+ nextThreeDay.temperatureLow + " </p>";
                     weather += "<img src='img/" + nextThreeDay.url + "'/>";
@@ -100,9 +117,44 @@
 
         }
         weather(userLat,userLon);
+        mapboxgl.accessToken = 'pk.eyJ1IjoiZmFpeXRlZCIsImEiOiJjanhhdmhwbnkxMWM5M25ucnFka21xOXRzIn0.c_ImXwEydAQDNZH9nhk20A';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [-98.4916, 29.4252],
+            zoom: 13
+        });
+
+
+        var marker = new mapboxgl.Marker() // initialize a new marker
+            .setLngLat([-98.4916, 29.4252]) // Marker [lng, lat] coordinates
+            .addTo(map);
+
+        var currentLocation = "San Antonio";
+        var geocoder = new MapboxGeocoder({ // Initialize the geocoder
+            accessToken: mapboxgl.accessToken, // Set the access token
+            mapboxgl: mapboxgl
+        });
+
+        // Add the geocoder to the map
+
+        $("#currentLocation").html(currentLocation);
+
+        geocoder.on('result', function(newLocation)  {
+            console.log(newLocation);
+            currentLocation = newLocation.result.place_name;
+            $("#currentLocation").html(currentLocation);
+            weather(newLocation.result.center[1],newLocation.result.center[0])
+        })
+        map.addControl(geocoder);
+
+
+
 
 
 
 </script>
+
+
 </body>
 </html>
