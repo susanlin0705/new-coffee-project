@@ -24,43 +24,43 @@
         var icons=[
             {
                 name:"clear-day",
-                url:"img/clouds.png"
+                url:"sunny.png"
             },
             {
                 name:"rain",
-                url:"img/rain.png"
+                url:"rain.png"
             },
             {
                 name:"snow",
-                url:"img/snowflake.png"
+                url:"snowflake.png"
             },
             {
                 name:"sleet",
-                url:"img/sleet.png"
+                url:"sleet.png"
             },
             {
                 name:"wind",
-                url:"img/wind.png"
+                url:"wind.png"
             },
             {
                 name:"fog",
-                url:"img/clouds.png"
+                url:"clouds.png"
             },
             {
                 name:"cloudy",
-                url:"img/clouds.png"
+                url:"clouds.png"
             },
             {
                 name:"partly-cloudy-day",
-                url:"img/cloudy.png"
+                url:"cloudy.png"
             },
             {
                 name:"clear-night",
-                url:"img/sunny.png"
+                url:"sunny.png"
             },
             {
                 name:"partly-cloudy-night",
-                url:"img/cloudy.png"
+                url:"cloudy.png"
             }
         ]
         var darkSkyKey = "8750add9758ed64b1ae670cb631afb76";
@@ -77,7 +77,7 @@
                 console.log(time);
                 nextThreeDays.forEach(function (nextThreeDay) {
                     icons.forEach(function (icon) {
-                        if(nextThreeDay.icon=== icon.icon){
+                        if(nextThreeDay.icon=== icon.name){
                             nextThreeDay.url = icon.url
                         }
                     });
@@ -85,10 +85,10 @@
                     console.log(date);
                     // to show on html
                     weather += "<div class='weatherReport'>";
-                    weather += "<p>Current Time: "+date.toDateString()+"</p>";
+                    weather += "<p>Current Date: "+date.toDateString()+"</p>";
                     weather += "<p>HIGHEST TEMP: "+ nextThreeDay.temperatureHigh+ " </p>";
                     weather += "<p>LOWEST TEMP: "+ nextThreeDay.temperatureLow + " </p>";
-                    weather += "<img src='icon/" + nextThreeDay.url + "'/>";
+                    weather += "<img src='img/" + nextThreeDay.url + "'/>";
                     weather += "<p>SUM: "+ nextThreeDay.summary+ " </p>";
                     weather += "</div>";
                 });
